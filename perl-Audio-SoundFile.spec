@@ -13,7 +13,7 @@ Release:	1
 License:	Artistic or GPL
 Group:		Development/Languages/Perl
 Source0:	ftp://ftp.cpan.org/pub/CPAN/modules/by-module/%{pdir}/%{pdir}-%{pnam}-%{version}.tar.gz
-BuildRequires:	libsndfile-devel >= 1.0.0
+BuildRequires:	libsndfile-devel < 1.0
 BuildRequires:	perl >= 5.6
 BuildRequires:	perl-PDL
 BuildRequires:	rpm-perlprov >= 3.0.3-16
