@@ -1,13 +1,14 @@
 #
 # Conditional build:
 # _without_tests - do not perform "make test"
+#
 %include	/usr/lib/rpm/macros.perl
 %define		pdir	Audio
 %define		pnam	SoundFile
 Summary:	Audio::SoundFile Perl module - interface to libsndfile, a sound I/O library
 Summary(pl):	Modu³ Perla Audio::SoundFile - interfejs do libsndfile
 Name:		perl-Audio-SoundFile
-Version:	0.14
+Version:	0.15
 Release:	1
 License:	Artistic or GPL
 Group:		Development/Languages/Perl
