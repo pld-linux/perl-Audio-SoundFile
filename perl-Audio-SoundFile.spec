@@ -41,7 +41,7 @@ przetwarzanie d¼wiêku jest szybsze przy wspó³pracy z PDL.
 %patch -p1
 
 %build
-perl Makefile.PL
+%{__perl} Makefile.PL
 %{__make} OPTIMIZE="%{rpmcflags}"
 
 %{!?_without_tests:%{__make} test}
