@@ -13,6 +13,7 @@ Release:	3
 License:	Artistic or GPL
 Group:		Development/Languages/Perl
 Source0:	http://www.cpan.org/modules/by-module/%{pdir}/%{pdir}-%{pnam}-%{version}.tar.gz
+# Source0-md5:	3c89682c47079d1c35e3031cc497a7f5
 Patch0:		%{name}-libsndfile1.patch
 BuildRequires:	libsndfile-devel >= 1.0.0
 BuildRequires:	perl-devel >= 5.6
