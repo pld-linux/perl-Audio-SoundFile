@@ -3,8 +3,8 @@
 %bcond_without	tests	# do not perform "make test"
 #
 %include	/usr/lib/rpm/macros.perl
-%define		pdir	Audio
-%define		pnam	SoundFile
+%define	pdir	Audio
+%define	pnam	SoundFile
 Summary:	Audio::SoundFile Perl module - interface to libsndfile, a sound I/O library
 Summary(pl):	Modu³ Perla Audio::SoundFile - interfejs do libsndfile
 Name:		perl-Audio-SoundFile
