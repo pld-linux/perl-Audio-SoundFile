@@ -9,7 +9,7 @@ Summary:	Audio::SoundFile Perl module - interface to libsndfile, a sound I/O lib
 Summary(pl):	Modu³ Perla Audio::SoundFile - interfejs do libsndfile
 Name:		perl-Audio-SoundFile
 Version:	0.15
-Release:	3
+Release:	4
 # same as perl
 License:	GPL v1+ or Artistic
 Group:		Development/Languages/Perl
