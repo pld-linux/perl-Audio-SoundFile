@@ -10,7 +10,8 @@ Summary(pl):	Modu³ Perla Audio::SoundFile - interfejs do libsndfile
 Name:		perl-Audio-SoundFile
 Version:	0.15
 Release:	3
-License:	Artistic or GPL
+# same as perl
+License:	GPL v1+ or Artistic
 Group:		Development/Languages/Perl
 Source0:	http://www.cpan.org/modules/by-module/%{pdir}/%{pdir}-%{pnam}-%{version}.tar.gz
 # Source0-md5:	3c89682c47079d1c35e3031cc497a7f5
