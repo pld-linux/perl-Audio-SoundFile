@@ -9,11 +9,12 @@ Summary:	Audio::SoundFile Perl module - interface to libsndfile, a sound I/O lib
 Summary(pl):	Modu³ Perla Audio::SoundFile - interfejs do libsndfile
 Name:		perl-Audio-SoundFile
 Version:	0.15
-Release:	1
+Release:	2
 License:	Artistic or GPL
 Group:		Development/Languages/Perl
 Source0:	ftp://ftp.cpan.org/pub/CPAN/modules/by-module/%{pdir}/%{pdir}-%{pnam}-%{version}.tar.gz
-BuildRequires:	libsndfile-devel < 1.0
+Patch0:		%{name}-libsndfile1.patch
+BuildRequires:	libsndfile-devel >= 1.0.0
 BuildRequires:	perl >= 5.6
 BuildRequires:	perl-PDL
 BuildRequires:	rpm-perlprov >= 3.0.3-16
@@ -37,6 +38,7 @@ przetwarzanie d¼wiêku jest szybsze przy wspó³pracy z PDL.
 
 %prep
 %setup -q -n %{pdir}-%{pnam}-%{version}
+%patch -p1
 
 %build
 perl Makefile.PL

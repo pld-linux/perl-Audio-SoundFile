@@ -1,0 +1,178 @@
+--- Audio-SoundFile-0.15/Header/header.c.orig	Sat Jan  6 19:39:17 2001
++++ Audio-SoundFile-0.15/Header/header.c	Sun Oct  6 12:34:46 2002
+@@ -20,9 +20,8 @@
+   hash = hash ? hash : newHV();
+ 
+   hv_store(hash, "samplerate",  10, newSViv((IV)info->samplerate),  0);
+-  hv_store(hash, "samples",      7, newSViv((IV)info->samples),     0);
++  hv_store(hash, "samples",      7, newSViv((IV)info->frames),      0);
+   hv_store(hash, "channels",     8, newSViv((IV)info->channels),    0);
+-  hv_store(hash, "pcmbitwidth", 11, newSViv((IV)info->pcmbitwidth), 0);
+   hv_store(hash, "format",       6, newSViv((IV)info->format),      0);
+   hv_store(hash, "sections",     8, newSViv((IV)info->sections),    0);
+   hv_store(hash, "seekable",     8, newSViv((IV)info->seekable),    0);
+@@ -46,9 +45,8 @@
+     hv_iterinit(hash);
+     while (hval = hv_iternextsv(hash, &hkey, &klen)) {
+       if      (strEQ(hkey, "samplerate"))  info->samplerate  = SvIV(hval);
+-      else if (strEQ(hkey, "samples"))     info->samples     = SvIV(hval);
++      else if (strEQ(hkey, "samples"))     info->frames      = SvIV(hval);
+       else if (strEQ(hkey, "channels"))    info->channels    = SvIV(hval);
+-      else if (strEQ(hkey, "pcmbitwidth")) info->pcmbitwidth = SvIV(hval);
+       else if (strEQ(hkey, "format"))      info->format      = SvIV(hval);
+       else if (strEQ(hkey, "sections"))    info->sections    = SvIV(hval);
+       else if (strEQ(hkey, "seekable"))    info->seekable    = SvIV(hval);
+--- Audio-SoundFile-0.15/Reader/Reader.xs.orig	Sun Jan  7 05:06:38 2001
++++ Audio-SoundFile-0.15/Reader/Reader.xs	Sun Oct  6 12:40:07 2002
+@@ -48,7 +48,7 @@
+   if (! SvROK(href))
+     XSRETURN_UNDEF;
+ 
+-  if ((file = sf_open_read(path, &info)) == NULL)
++  if ((file = sf_open(path, SFM_READ, &info)) == NULL)
+     XSRETURN_UNDEF;
+ 
+   if (! SvOK(head = Audio_SoundFile_Header_toObject(NULL, &info)))
+--- Audio-SoundFile-0.15/Writer/Writer.xs.orig	Sun Jan  7 05:06:48 2001
++++ Audio-SoundFile-0.15/Writer/Writer.xs	Sun Oct  6 12:40:56 2002
+@@ -46,7 +46,7 @@
+   if ((info = Audio_SoundFile_Header_toSFinfo(href)) == NULL)
+     XSRETURN_UNDEF;
+ 
+-  if ((file = sf_open_write(path, info)) == NULL)
++  if ((file = sf_open(path, SFM_WRITE, info)) == NULL)
+     XSRETURN_UNDEF;
+ 
+   hash = newHV();
+--- Audio-SoundFile-0.15/t/20header.t.orig	Sat Jan  6 19:39:17 2001
++++ Audio-SoundFile-0.15/t/20header.t	Sun Oct  6 12:44:30 2002
+@@ -20,8 +20,7 @@
+ $format = {
+     samplerate  => 44100,
+     channels    => 2,
+-    pcmbitwidth => 16,
+-    format      => SF_FORMAT_WAV | SF_FORMAT_PCM,
++    format      => SF_FORMAT_WAV | SF_FORMAT_PCM_16,
+ };
+ 
+ ok($header = new Audio::SoundFile::Header(%{$format}));
+--- Audio-SoundFile-0.15/Header/Header.pm.orig	Sun Jan  7 05:09:12 2001
++++ Audio-SoundFile-0.15/Header/Header.pm	Sun Oct  6 13:00:24 2002
+@@ -46,58 +46,83 @@
+ @EXPORT  = qw(SF_FORMAT_WAV
+               SF_FORMAT_AIFF
+               SF_FORMAT_AU
+-              SF_FORMAT_AULE
+               SF_FORMAT_RAW
+               SF_FORMAT_PAF
+               SF_FORMAT_SVX
+               SF_FORMAT_NIST
+-              SF_FORMAT_PCM
++	      SF_FORMAT_VOC
++	      SF_FORMAT_IRCAM
++	      SF_FORMAT_W64
++	      SF_FORMAT_MAT4
++	      SF_FORMAT_MAT5
++              SF_FORMAT_PCM_S8
++              SF_FORMAT_PCM_16
++              SF_FORMAT_PCM_24
++              SF_FORMAT_PCM_32
++              SF_FORMAT_PCM_U8
+               SF_FORMAT_FLOAT
++              SF_FORMAT_DOUBLE
+               SF_FORMAT_ULAW
+               SF_FORMAT_ALAW
+               SF_FORMAT_IMA_ADPCM
+               SF_FORMAT_MS_ADPCM
+-              SF_FORMAT_PCM_BE
+-              SF_FORMAT_PCM_LE
+-              SF_FORMAT_PCM_S8
+-              SF_FORMAT_PCM_U8
+-              SF_FORMAT_SVX_FIB
+-              SF_FORMAT_SVX_EXP
+-              SF_FORMAT_GSM610
+-              SF_FORMAT_G721_32
+-              SF_FORMAT_G723_24
++	      SF_FORMAT_GSM610
++	      SF_FORMAT_G721_32
++	      SF_FORMAT_G723_24
++	      SF_FORMAT_G723_40
++	      SF_FORMAT_DWVW_12
++	      SF_FORMAT_DWVW_16
++	      SF_FORMAT_DWVW_24
++	      SF_FORMAT_DWVW_N
++	      SF_ENDIAN_FILE
++	      SF_ENDIAN_LITTLE
++	      SF_ENDIAN_BIG
++	      SF_ENDIAN_CPU
+               SF_FORMAT_SUBMASK
+-              SF_FORMAT_TYPEMASK);
++              SF_FORMAT_TYPEMASK
++              SF_FORMAT_ENDMASK);
+ 
+ bootstrap Audio::SoundFile::Header $VERSION;
+ 
+ sub SF_FORMAT_WAV  { 0x10000 }
+ sub SF_FORMAT_AIFF { 0x20000 }
+ sub SF_FORMAT_AU   { 0x30000 }
+-sub SF_FORMAT_AULE { 0x40000 }
+-sub SF_FORMAT_RAW  { 0x50000 }
+-sub SF_FORMAT_PAF  { 0x60000 }
+-sub SF_FORMAT_SVX  { 0x70000 }
+-sub SF_FORMAT_NIST { 0x80000 }
+-
+-sub SF_FORMAT_PCM       { 0x0001 }
+-sub SF_FORMAT_FLOAT     { 0x0002 }
+-sub SF_FORMAT_ULAW      { 0x0003 }
+-sub SF_FORMAT_ALAW      { 0x0004 }
+-sub SF_FORMAT_IMA_ADPCM { 0x0005 }
+-sub SF_FORMAT_MS_ADPCM  { 0x0006 }
+-sub SF_FORMAT_PCM_BE    { 0x0007 }
+-sub SF_FORMAT_PCM_LE    { 0x0008 }
+-sub SF_FORMAT_PCM_S8    { 0x0009 }
+-sub SF_FORMAT_PCM_U8    { 0x000A }
+-sub SF_FORMAT_SVX_FIB   { 0x000B }
+-sub SF_FORMAT_SVX_EXP   { 0x000C }
+-sub SF_FORMAT_GSM610    { 0x000D }
+-sub SF_FORMAT_G721_32   { 0x000E }
+-sub SF_FORMAT_G723_24   { 0x000F }
++sub SF_FORMAT_RAW  { 0x40000 }
++sub SF_FORMAT_PAF  { 0x50000 }
++sub SF_FORMAT_SVX  { 0x60000 }
++sub SF_FORMAT_NIST { 0x70000 }
++sub SF_FORMAT_VOC  { 0x80000 }
++sub SF_FORMAT_IRCAM { 0xA0000 }
++sub SF_FORMAT_W64  { 0xB0000 }
++
++sub SF_FORMAT_PCM_S8    { 0x0001 }
++sub SF_FORMAT_PCM_16    { 0x0002 }
++sub SF_FORMAT_PCM_24    { 0x0003 }
++sub SF_FORMAT_PCM_32    { 0x0004 }
++sub SF_FORMAT_PCM_U8    { 0x0005 }
++sub SF_FORMAT_FLOAT     { 0x0006 }
++sub SF_FORMAT_DOUBLE    { 0x0007 }
++sub SF_FORMAT_ULAW      { 0x0010 }
++sub SF_FORMAT_ALAW      { 0x0011 }
++sub SF_FORMAT_IMA_ADPCM { 0x0012 }
++sub SF_FORMAT_MS_ADPCM  { 0x0013 }
++sub SF_FORMAT_GSM610    { 0x0020 }
++sub SF_FORMAT_G721_32   { 0x0030 }
++sub SF_FORMAT_G723_24   { 0x0031 }
++sub SF_FORMAT_G723_40   { 0x0032 }
++sub SF_FORMAT_DWVW_12   { 0x0040 }
++sub SF_FORMAT_DWVW_16   { 0x0041 }
++sub SF_FORMAT_DWVW_24   { 0x0042 }
++sub SF_FORMAT_DWVW_N    { 0x0043 }
++
++sub SF_ENDIAN_FILE     { 0x00000000 }
++sub SF_ENDIAN_LITTLE   { 0x10000000 }
++sub SF_ENDIAN_BIG      { 0x20000000 }
++sub SF_ENDIAN_CPU      { 0x30000000 }
+ 
+ sub SF_FORMAT_SUBMASK  { 0x0000FFFF }
+-sub SF_FORMAT_TYPEMASK { 0x7FFF0000 }
++sub SF_FORMAT_TYPEMASK { 0x0FFF0000 }
++sub SF_FORMAT_ENDMASK  { 0x30000000 }
+ 
+ =item $header = new Audio::SoundFile::Header(%format_info);
+ 
