@@ -6,7 +6,7 @@
 %define		pdir	Audio
 %define		pnam	SoundFile
 Summary:	Audio::SoundFile Perl module - interface to libsndfile, a sound I/O library
-Summary(pl):	Modu³ Perla Audio::SoundFile - interfejs do libsndfile
+Summary(pl.UTF-8):   ModuÅ‚ Perla Audio::SoundFile - interfejs do libsndfile
 Name:		perl-Audio-SoundFile
 Version:	0.15
 Release:	4
@@ -30,13 +30,13 @@ scalar, this module provides interface using PDL object directly.
 Since PDL provides efficient method to handle large bytestream, sound
 processing is much faster if this module and PDL is used in pair.
 
-%description -l pl
-Ten modu³ udostêpnia interfejs do libsndfile. Biblioteka ta pozwala na
-odczyt, zapis i obróbkê danych d¼wiêkowych w ponad 10 formatach.
-Ponadto, oprócz interfejsu u¿ywaj±cego perlowych skalarów, ten modu³
-udostêpnia interfejs u¿ywaj±cy bezpo¶rednio obiektu PDL. Poniewa¿ PDL
-udostêpnia wydajne sposoby na obs³ugê du¿ych strumieni danych,
-przetwarzanie d¼wiêku jest szybsze przy wspó³pracy z PDL.
+%description -l pl.UTF-8
+Ten moduÅ‚ udostÄ™pnia interfejs do libsndfile. Biblioteka ta pozwala na
+odczyt, zapis i obrÃ³bkÄ™ danych dÅºwiÄ™kowych w ponad 10 formatach.
+Ponadto, oprÃ³cz interfejsu uÅ¼ywajÄ…cego perlowych skalarÃ³w, ten moduÅ‚
+udostÄ™pnia interfejs uÅ¼ywajÄ…cy bezpoÅ›rednio obiektu PDL. PoniewaÅ¼ PDL
+udostÄ™pnia wydajne sposoby na obsÅ‚ugÄ™ duÅ¼ych strumieni danych,
+przetwarzanie dÅºwiÄ™ku jest szybsze przy wspÃ³Å‚pracy z PDL.
 
 %prep
 %setup -q -n %{pdir}-%{pnam}-%{version}
