@@ -6,7 +6,7 @@
 %define		pdir	Audio
 %define		pnam	SoundFile
 Summary:	Audio::SoundFile Perl module - interface to libsndfile, a sound I/O library
-Summary(pl.UTF-8):   Moduł Perla Audio::SoundFile - interfejs do libsndfile
+Summary(pl.UTF-8):	Moduł Perla Audio::SoundFile - interfejs do libsndfile
 Name:		perl-Audio-SoundFile
 Version:	0.15
 Release:	4
