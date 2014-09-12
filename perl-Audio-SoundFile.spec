@@ -65,6 +65,5 @@ rm -rf $RPM_BUILD_ROOT
 %{perl_vendorarch}/Audio/SoundFile
 %dir %{perl_vendorarch}/auto/Audio/SoundFile
 %dir %{perl_vendorarch}/auto/Audio/SoundFile/*
-%{perl_vendorarch}/auto/Audio/SoundFile/*/*.bs
 %attr(755,root,root) %{perl_vendorarch}/auto/Audio/SoundFile/*/*.so
 %{_mandir}/man3/*
