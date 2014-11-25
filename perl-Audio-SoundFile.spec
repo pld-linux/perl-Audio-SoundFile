@@ -1,10 +1,10 @@
 #
 # Conditional build:
 %bcond_without	tests	# do not perform "make test"
-#
-%include	/usr/lib/rpm/macros.perl
+
 %define		pdir	Audio
 %define		pnam	SoundFile
+%include	/usr/lib/rpm/macros.perl
 Summary:	Audio::SoundFile Perl module - interface to libsndfile, a sound I/O library
 Summary(pl.UTF-8):	Moduł Perla Audio::SoundFile - interfejs do libsndfile
 Name:		perl-Audio-SoundFile
@@ -15,9 +15,10 @@ License:	GPL v1+ or Artistic
 Group:		Development/Languages/Perl
 Source0:	http://www.cpan.org/modules/by-module/%{pdir}/%{pdir}-%{pnam}-%{version}.tar.gz
 # Source0-md5:	cbb84d7ffb4a8fc5389d7239696bda3c
+URL:		http://search.cpan.org/dist/Audio-SoundFile/
 BuildRequires:	libsndfile-devel >= 1.0.0
-BuildRequires:	perl-devel >= 1:5.8.0
 BuildRequires:	perl-PDL
+BuildRequires:	perl-devel >= 1:5.8.0
 BuildRequires:	rpm-perlprov >= 4.1-13
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
