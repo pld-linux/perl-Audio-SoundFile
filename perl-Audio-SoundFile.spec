@@ -4,7 +4,6 @@
 
 %define		pdir	Audio
 %define		pnam	SoundFile
-%include	/usr/lib/rpm/macros.perl
 Summary:	Audio::SoundFile Perl module - interface to libsndfile, a sound I/O library
 Summary(pl.UTF-8):	Moduł Perla Audio::SoundFile - interfejs do libsndfile
 Name:		perl-Audio-SoundFile
